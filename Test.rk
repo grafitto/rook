@@ -1,0 +1,17 @@
+let current := 2018; //This is the current year
+let birth := 1993; //This is my birth year
+let age := current - birth; //My age
+
+/**
+ * This is the base price regardless of the age
+ */
+let basePrice := 100;
+
+/**
+ * Ticket based on my age
+ */
+let ticket := if (age >= 18) 
+                then 
+                  basePrice + 300 
+                else 
+                  basePrice + 100;
