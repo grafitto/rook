@@ -4,8 +4,14 @@ using System.Collections.Generic;
 namespace Rook.Tree.Env {
     public class Environment {
 
+        private static Environment scope = null;
         private Dictionary<string, dynamic> env;
-        public Environment() {
+        private Environment parent;
+        public Dictionary<string, dynamic> Env {
+            get { return this.env; }
+        }
+        private Environment(Environment parent) {
+            this.parent = parent;
             this.env = new Dictionary<string, dynamic>();
         }
         public void Set(string name, dynamic value) {
@@ -22,10 +28,17 @@ namespace Rook.Tree.Env {
         }
         public dynamic Get(string name) {
             if(this.env.ContainsKey(name)) {
+                // Chech the current scope
                 return this.env[name];
+            } else if(this.parent.Env.ContainsKey(name)) {
+                // Check the parent scope
+                return this.parent.Env[name];
             } else {
                 throw new Exception("Variable not initialized.");
             }
+        }
+        public static Environment Scope(Environment parent = null) {
+            return new Environment(parent);
         }
     }
 }

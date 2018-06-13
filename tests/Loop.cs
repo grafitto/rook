@@ -1,11 +1,14 @@
 using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+using System.IO;
+using System.Text;
 
 namespace Loop {
     public class Application {
        /*  public static void Main(string[] args) {
-            Stopwatch watch = new Stopwatch();
+            using(StreamWriter writer = new StreamWriter(Console.OpenStandardOutput())){
+                writer.WriteLine("this is a test");
+            } */
+           /*  Stopwatch watch = new Stopwatch();
 
             watch.Start();
 
@@ -22,6 +25,7 @@ namespace Loop {
 
             TimeSpan time = watch.Elapsed;
             Console.WriteLine("{0} Hours, {1} Minutes, {2} Seconds", time.Hours, time.Minutes, time.Seconds);
-        } */
+         */
+        //}
     }
 }

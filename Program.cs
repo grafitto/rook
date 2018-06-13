@@ -23,9 +23,10 @@ namespace Rook
             Parser parser = new Parser(code);
             List<AST> trees = parser.Parse();
 
-            Tree.Env.Environment env = new Tree.Env.Environment();
+            Tree.Env.Environment env = Tree.Env.Environment.Scope();
+            env.Set("print", new Print(new string[]{"value"}));
             foreach(AST tree in trees) {
-                Console.WriteLine(tree.Evaluate(env).ToString());
+                tree.Evaluate(env);
             }
             /* while(token.Type != TokenType.EOF) {
                 Console.WriteLine(token);

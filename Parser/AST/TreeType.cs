@@ -7,6 +7,12 @@ namespace Rook.Tree {
         EXPRESSION,
         NULL,
         BOOLEAN,
-        IF
+        IF,
+        FUNCTION_CALL,
+        FUNCTION,
+
+        //INBUILT FUNCTIONS
+        INBUILT_PRINT_FUNCTION,
+        INBUILT_READ_FUNCTION
     }
 }

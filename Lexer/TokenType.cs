@@ -29,6 +29,7 @@ namespace Rook.Tokenizer {
         RIGHT_BRACKET,
         IF,
         THEN,
+        COMMA,
         ELSE,
         EOF,
    }

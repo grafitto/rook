@@ -1,0 +1,10 @@
+let this := 34;
+let that := "String";
+let other := False;
+
+if(this == that) 45 else 45
+let x := Null;
+let otherOne := 12.23;
+
+//This is a comment
+//This is also another comment
