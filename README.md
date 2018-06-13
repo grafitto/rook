@@ -6,23 +6,34 @@ Rook is from the word rookie, I am a rookie at programming language design obvio
 Current:
 
 ```javascript
-let current := 2018; //This is the current year
-let birth := 1993; //This is my birth year
-let age := current - birth; //My age
+/**
+  All numbers are of type Double
+  Only 4 data types are supported
+   1. Numbers (Doubles)
+   2. Strings
+   3. Booleans (True|False)
+   4. Null (Null)
+*/
+let current := 2018;
+let birth := 1993;
+let age := current - birth;
+let string := "This is a test";
+let bool := True;
+let null := Null;
+// This is the base charge allowed
+let baseCharge := 100;
+
+let ticket := if age >= 18 then baseCharge + 300 else baseCharge;
 
 /**
- * This is the base price regardless of the age
- */
-let basePrice := 100;
-
-/**
- * Ticket based on my age
- */
-let ticket := if (age >= 18) 
-                then 
-                  basePrice + 300 
-                else 
-                  basePrice + 100;
+  This is testing the inbuilt print function
+  For now it only takes one parameter that should
+  either be a constant or a variable.
+*/
+if (ticket == baseCharge) then 
+      print("You must be below 18 hehe.")
+      else
+      print("Welcome sir/madam!");
 ```
 
 Working on function calls...
