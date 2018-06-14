@@ -104,7 +104,9 @@ namespace Rook.Tree
                 case TokenType.DIVIDE:
                     return new Tree.Number((op1.Evaluate(this.env) / op2.Evaluate(this.env)).ToString());
                 case TokenType.PLUS:
-                    return new Tree.Number((op1.Evaluate(this.env) + op2.Evaluate(this.env)).ToString());
+                    double op1res = op1.Evaluate(this.env);
+                    double op2res = op2.Evaluate(this.env);
+                    return new Tree.Number((op1res + op2res).ToString());
                 case TokenType.MINUS:
                     return new Tree.Number((op1.Evaluate(this.env) - op2.Evaluate(this.env)).ToString());
                 case TokenType.MODULUS:

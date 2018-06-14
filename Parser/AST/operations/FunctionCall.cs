@@ -19,13 +19,13 @@ namespace Rook.Tree {
        */
        Env.Environment scope = Env.Environment.Scope(env);
        Function function = env.Get(this.name);
-       if(this.arguments.Count != function.Parameters.Length){
-         throw new Exception("Expected " + function.Parameters.Length  + " to function " + this.name + " call. Found " + this.arguments.Count);
+       if(this.arguments.Count != function.Parameters.Count){
+         throw new Exception("Expected " + function.Parameters.Count  + " to function " + this.name + " call. Found " + this.arguments.Count);
        }
        for(int i = 0; i < this.arguments.Count; i++) {
-         scope.Set(function.Parameters[i], this.arguments[i]);
+         scope.Set(function.Parameters[i], this.arguments[i].Evaluate(env));
        }
-      return function.Evaluate(scope);
+      return function.Solve(scope);
     }
   }
 }

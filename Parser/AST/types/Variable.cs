@@ -6,8 +6,9 @@ namespace Rook.Tree {
             this.name = name;
         }
         public override dynamic Evaluate(Env.Environment env) {
-            this.Value = env.Get(this.name);
-            return this.Value;
+            dynamic value = env.Get(this.name);
+            this.Value = value;
+            return value;
         }
     }
 }

@@ -1,20 +1,23 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Rook.Tree {
   public class Print: Function {
 
-    public Print(string[] parameters): base(parameters) {
+    public Print(List<string> parameters): base(parameters) {
     }
     public override dynamic Evaluate(Env.Environment env) {
       //We only expect one argument 
+      return this;
+    }
+    public override dynamic Solve(Env.Environment env) {
       Env.Environment environ = Env.Environment.Scope(env);
-      AST value = environ.Get(this.Parameters[0]);
-      dynamic str = value.Evaluate(env);
+      dynamic value = environ.Get(this.Parameters[0]);
       using(StreamWriter writer = new StreamWriter(Console.OpenStandardOutput())) {
-        writer.Write(str.ToString() + "\n");
+        writer.Write(value.ToString() + "\n");
       }
-      return str;
+      return value;
     }
   }
 }

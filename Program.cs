@@ -12,7 +12,7 @@ namespace Rook
     {
         static void Main(string[] args)
         {
-            string code = File.ReadAllText("Test.rk");
+            string code = File.ReadAllText("user.rook");
             Lexer lexer = new Lexer(code); 
 
             /* Token next = lexer.Next();
@@ -24,7 +24,8 @@ namespace Rook
             List<AST> trees = parser.Parse();
 
             Tree.Env.Environment env = Tree.Env.Environment.Scope();
-            env.Set("print", new Print(new string[]{"value"}));
+            env.Set("Print", new Print(new List<string>(new string[]{"value"})));
+            env.Set("Read", new Read(new List<string>(new string[]{"prompt"})));
             foreach(AST tree in trees) {
                 tree.Evaluate(env);
             }

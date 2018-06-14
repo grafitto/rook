@@ -22,7 +22,11 @@ let ticket := if age >= 18 then baseCharge + 300 else baseCharge;
   For now it only takes one parameter that should
   either be a constant or a variable.
 */
-if (ticket == baseCharge) then 
-      print("You must be below 18 hehe.")
+if (ticket == baseCharge) then
+        Print("You must be below 18 hehe.")
       else
-      print("Welcome sir/madam!");
+        Print("Welcome sir/madam!");
+
+//The dotnet compiler compiles Rook's compiler then Rook
+//compiler compiles Rook thats one of the reasons its taking long
+//Also I have not optimised anything

@@ -29,8 +29,11 @@ namespace Rook.Tokenizer {
                         string op = character.ToString() + stream.Next().ToString();
                         tokens.Add(new Token(TokenType.IS, op, this.stream.Column, this.stream.Row));
                     } else {
-                        stream.Error("Character not supported.");
+                        tokens.Add(new Token(TokenType.COLON, character.ToString(), this.stream.Column, this.stream.Row));
                     }
+                } else if (character.Equals(CharacterTypes.COMMA)) {
+                    //- (MINUS)
+                    tokens.Add(new Token(TokenType.COMMA, character.ToString(), this.stream.Column, this.stream.Row));
                 } else if (character.Equals(CharacterTypes.SEMI_COLON)) {
                     tokens.Add(new Token(TokenType.SEMI_COLON, character.ToString(), this.stream.Column, this.stream.Row));
                 } else if (Regex.IsMatch(character.ToString(), @"[a-zA-Z_]")) {
@@ -45,6 +48,12 @@ namespace Rook.Tokenizer {
                 } else if (character.Equals(CharacterTypes.RIGHT_BRACKET)) {
                     //) (RIGHT_BRACKET)
                     tokens.Add(new Token(TokenType.RIGHT_BRACKET, character.ToString(), this.stream.Column, this.stream.Row));
+                } else if (character.Equals(CharacterTypes.LEFT_CURLY_BRACKET)) {
+                    //- (LEFT_CURLY_BRACKET)
+                    tokens.Add(new Token(TokenType.LEFT_CURLY_BRACKET, character.ToString(), this.stream.Column, this.stream.Row));
+                } else if (character.Equals(CharacterTypes.RIGHT_CURLY_BRACKET)) {
+                    //- (LEFT_CURLY_BRACKET)
+                    tokens.Add(new Token(TokenType.RIGHT_CURLY_BRACKET, character.ToString(), this.stream.Column, this.stream.Row));
                 } else if (character.Equals(CharacterTypes.PLUS)) {
                     //+ (PLUS)
                     tokens.Add(new Token(TokenType.PLUS, character.ToString(), this.stream.Column, this.stream.Row));

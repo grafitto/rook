@@ -1,10 +1,15 @@
-let this := 34;
-let that := "String";
-let other := False;
+let current := 2018;
+let birth := 1993;
+let age := current - birth;
 
-if(this == that) 45 else 45
-let x := Null;
-let otherOne := 12.23;
+let ticket := {:(age)
+  let baseTicket := 100;
 
+  if age >= 18 then baseTicket + 300 else baseTicket + 100;
+}
+
+let x := ticket(age);
+
+Print(x);
 //This is a comment
 //This is also another comment

@@ -16,6 +16,9 @@ namespace Rook.Tokenizer {
         public const char NOT = '!';
         public const char LOGICAL_AND ='&';
         public const char LOGICAL_OR = '|';
+        public const char COMMA = ',';
+        public const char LEFT_CURLY_BRACKET = '{';
+        public const char RIGHT_CURLY_BRACKET = '}';
     }
     public class KeyWords {
         public const string LET = "let";

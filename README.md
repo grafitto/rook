@@ -17,28 +17,22 @@ Current:
 let current := 2018;
 let birth := 1993;
 let age := current - birth;
-let string := "This is a test";
-let bool := True;
-let null := Null;
-// This is the base charge allowed
-let baseCharge := 100;
 
-let ticket := if age >= 18 then baseCharge + 300 else baseCharge;
+let ticket := {:(age)
+  let baseTicket := 100;
 
-/**
-  This is testing the inbuilt print function
-  For now it only takes one parameter that should
-  either be a constant or a variable.
-*/
-if (ticket == baseCharge) then 
-      print("You must be below 18 hehe.")
-      else
-      print("Welcome sir/madam!");
+  if age >= 18 then baseTicket + 300 else baseTicket + 100;
+}
+
+let x := ticket(age);
+
+Print(x);
+//This is a comment
+//This is also another comment
 ```
 
-Working on function calls...
-
-Very simple for now hehe...
+Now that function calls are over, 
+Notice that the code above is almost similar to te one below
 
 **Dreams:**
 
@@ -49,5 +43,15 @@ let ticketCost := {:(age)
 let age := 24;
 print(ticketCost(age));
 ```
+Now its time for implementing the `.` access to allow stuff like:
 
-**Still working on it...**
+```javascript
+10.Negate; //Should return -10
+
+"Hello".Concat("World"); //Should return "Hello world"
+
+//Etc
+
+```
+
+Then vigorous testing will start...
