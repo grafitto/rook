@@ -11,6 +11,8 @@ namespace Rook.Tree {
         FUNCTION_CALL,
         FUNCTION,
 
+        LIST,
+
         //INBUILT FUNCTIONS
         INBUILT_PRINT_FUNCTION,
         INBUILT_READ_FUNCTION
