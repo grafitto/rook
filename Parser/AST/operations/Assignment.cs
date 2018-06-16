@@ -9,9 +9,8 @@ namespace Rook.Tree {
         }
 
         public override dynamic Evaluate(Env.Environment env) {
-            dynamic value = this.right.Evaluate(env);
-            env.Set(this.left, value);
-            return value;
+            env.Set(this.left, this.right.Evaluate(env));
+            return this.right;
         }
     }
 }

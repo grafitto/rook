@@ -66,6 +66,8 @@ namespace Rook.Tokenizer {
                     return true;
                 case TokenType.RIGHT_BRACKET:
                     return true;
+                case TokenType.FULL_STOP:
+                    return true;
                 default:
                     return false;
             }

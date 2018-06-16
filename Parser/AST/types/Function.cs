@@ -5,6 +5,9 @@ using System.Collections.Generic;
 namespace Rook.Tree {
   public class Function: AST {
 
+    public Function Value {
+      get { return this; }
+    }
     private List<string> parameters;
     List<AST> bodyStatements = new List<AST>();
     public List<string> Parameters {
@@ -20,7 +23,7 @@ namespace Rook.Tree {
       return this;
     }
     public virtual dynamic Solve(Env.Environment env) {
-      dynamic result = null;
+      dynamic result = new Tree.Null();
       foreach(AST line in this.bodyStatements) {
         result = line.Evaluate(env);
       }

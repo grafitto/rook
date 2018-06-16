@@ -1,7 +1,0 @@
-let testVariable := 12.456;
-let x := "This is a string";
-let b := testVariable;
-let c := False;
-let d := Null;
-d := 34;
-b := c;

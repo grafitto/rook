@@ -1,6 +1,7 @@
 namespace Rook.Tree {
   public class IfStatement : AST {
 
+    public AST Value;
     private AST condition;
     private AST thenBlock;
     private AST elseBlock = null;
@@ -10,14 +11,17 @@ namespace Rook.Tree {
       this.elseBlock = elseBlock;
     }
     public override dynamic Evaluate(Env.Environment env) {
-      var res = new Tree.Boolean(condition.Evaluate(env).ToString()).Evaluate(env);
+      var res = new Tree.Boolean(condition.Evaluate(env)).Value;
       if(res) {
-        return thenBlock.Evaluate(env);
+        this.Value = thenBlock.Evaluate(env);
+        return this.Value;
       } else {
         if(elseBlock != null) {
-          return elseBlock.Evaluate(env);
+          this.Value = elseBlock.Evaluate(env);
+          return this.Value;
         } else {
-          return new Tree.Null().Evaluate(env);
+          this.Value = new Tree.Null();
+          return this.Value;
         }
       }
     }

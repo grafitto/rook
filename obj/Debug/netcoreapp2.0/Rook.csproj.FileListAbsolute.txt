@@ -20,3 +20,8 @@
 /home/nderitu/Documents/REPOSITORIES/Rook/obj/Debug/netcoreapp2.0/Rook.AssemblyInfo.cs
 /home/nderitu/Documents/REPOSITORIES/Rook/obj/Debug/netcoreapp2.0/Rook.dll
 /home/nderitu/Documents/REPOSITORIES/Rook/obj/Debug/netcoreapp2.0/Rook.pdb
+/home/nderitu/Documents/REPOSITORIES/Rook/build/Rook.deps.json
+/home/nderitu/Documents/REPOSITORIES/Rook/build/Rook.runtimeconfig.json
+/home/nderitu/Documents/REPOSITORIES/Rook/build/Rook.runtimeconfig.dev.json
+/home/nderitu/Documents/REPOSITORIES/Rook/build/Rook.dll
+/home/nderitu/Documents/REPOSITORIES/Rook/build/Rook.pdb

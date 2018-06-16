@@ -19,6 +19,8 @@ namespace Rook.Tokenizer {
         public const char COMMA = ',';
         public const char LEFT_CURLY_BRACKET = '{';
         public const char RIGHT_CURLY_BRACKET = '}';
+
+        public const char FULL_STOP = '.';
     }
     public class KeyWords {
         public const string LET = "let";

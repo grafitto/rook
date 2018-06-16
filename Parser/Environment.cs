@@ -30,11 +30,11 @@ namespace Rook.Tree.Env {
             if(this.env.ContainsKey(name)) {
                 // Chech the current scope
                 return this.env[name];
-            } else if(this.parent.Env.ContainsKey(name)) {
+            } else if(this.parent != null) {
                 // Check the parent scope
-                return this.parent.Env[name];
+                return this.parent.Get(name);
             } else {
-                throw new Exception("Variable not initialized.");
+                throw new Exception("Variable " + name + " not initialized.");
             }
         }
         public static Environment Scope(Environment parent = null) {

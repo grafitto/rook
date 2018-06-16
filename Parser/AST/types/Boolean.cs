@@ -15,13 +15,24 @@ namespace Rook.Tree {
                 }
             }
         }
-        public Boolean(string value): base (TreeType.BOOLEAN)
+        public Boolean(dynamic value): base (TreeType.BOOLEAN)
         {
-            this.value = value;
+            Boolean b = value as Boolean;
+            if(b != null){
+                bool bValue = b.Value;
+                if(bValue) {
+                    this.value = "True";
+                } else {
+                    this.value = "False";
+                }
+            } else {
+                this.value = value;
+            }
+            
         }
 
         public override dynamic Evaluate(Env.Environment env) {
-            return this.Value;
+            return this;
         }
     }
 }

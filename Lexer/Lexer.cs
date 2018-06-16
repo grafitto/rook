@@ -34,11 +34,15 @@ namespace Rook.Tokenizer {
                 } else if (character.Equals(CharacterTypes.COMMA)) {
                     //- (MINUS)
                     tokens.Add(new Token(TokenType.COMMA, character.ToString(), this.stream.Column, this.stream.Row));
+                } else if (character.Equals(CharacterTypes.FULL_STOP)) {
+                    //- (MINUS)
+                    tokens.Add(new Token(TokenType.FULL_STOP, character.ToString(), this.stream.Column, this.stream.Row));
+                
                 } else if (character.Equals(CharacterTypes.SEMI_COLON)) {
                     tokens.Add(new Token(TokenType.SEMI_COLON, character.ToString(), this.stream.Column, this.stream.Row));
                 } else if (Regex.IsMatch(character.ToString(), @"[a-zA-Z_]")) {
                     tokens.Add(this.Identifier(character));
-                } else if (Regex.IsMatch(character.ToString(), @"[0-9\.]")) {
+                } else if (char.IsDigit(character) || character.Equals('.')) {
                     tokens.Add(this.Number(character));
                 } else if (character.Equals(CharacterTypes.DOUBLE_QUOTE)) {
                     tokens.Add(new Token(TokenType.STRING, this.ReadEscaped(), this.stream.Column, this.stream.Row));
@@ -194,7 +198,10 @@ namespace Rook.Tokenizer {
             char chunk = this.stream.Next();
 
             do {
-                if (Regex.IsMatch(chunk.ToString(), @"[0-9\.]")) {
+                if (char.IsDigit(chunk)) {
+                    number = number + chunk.ToString();
+                    chunk = this.stream.Next();
+                }else if(chunk.Equals('.') && char.IsDigit(this.stream.Peek())) {
                     number = number + chunk.ToString();
                     chunk = this.stream.Next();
                 } else {

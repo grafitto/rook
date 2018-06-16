@@ -14,8 +14,9 @@ namespace Rook.Tree {
     public override dynamic Solve(Env.Environment env) {
       Env.Environment environ = Env.Environment.Scope(env);
       dynamic value = environ.Get(this.Parameters[0]);
+      dynamic print = value.Value;
       using(StreamWriter writer = new StreamWriter(Console.OpenStandardOutput())) {
-        writer.Write(value.ToString() + "\n");
+        writer.Write(print.ToString() + "\n");
       }
       return value;
     }

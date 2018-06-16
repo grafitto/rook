@@ -1,8 +1,0 @@
-let current := 2018;
-let birth := 1993;
-let age := current - birth;
-let x := if age >= 18 then baseTicket + 300 else baseTicket + 100;
-
-Print(x);
-//This is a comment
-//This is also another comment

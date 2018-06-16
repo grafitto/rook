@@ -16,13 +16,13 @@ namespace Rook.Tree {
       dynamic value = environ.Get(this.Parameters[0]);
       string input = "";
       using(StreamWriter writer = new StreamWriter(Console.OpenStandardOutput())) {
-        writer.Write(value.ToString());
+        writer.Write(value.Value.ToString());
       }
       using(StreamReader reader = new StreamReader(Console.OpenStandardInput())) {
         input = reader.ReadLine();
         reader.Close();
       }
-      return input;
+      return new Tree.String(input);
     }
   }
 }

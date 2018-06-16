@@ -187,7 +187,9 @@ namespace Rook.Parse {
                 case TokenType.STRING:
                     if(lexer.Peek().Is(TokenType.SEMI_COLON)) {
                         return new Tree.String(token.Value);
-                    } else {
+                    } else if(lexer.Peek().isOperator()) {
+                        return this.Expression(token);
+                    }else {
                         this.NotImplemented(lexer.Peek());
                     }
                     break;
@@ -260,6 +262,8 @@ namespace Rook.Parse {
                         return new Tree.Boolean(KeyWords.FALSE);
                     }
                     break;
+                case TokenType.NULL:
+                    return new Tree.Null();
                 default:
                     this.Error("Not supported.", token);
                     break;

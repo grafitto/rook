@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace Rook.Tree {
   public class FunctionCall: AST {
 
-    List<AST> arguments;
-    string name;
+    public List<AST> arguments;
+    public string name;
     public FunctionCall(string name, List<AST> arguments) : base(TreeType.FUNCTION_CALL) {
       this.arguments = arguments;
       this.name = name;
