@@ -1,22 +1,19 @@
-let x := 10;
+/**
+Number (double)
+String 
+Boolean (True|False)
+Null
 
+Function
+*/
 
-// Print(x.Negate);
-// Print(x.Sqr);
-// Print(x.Cos);
-// Print(x.Sin);
-// Print(x.Pow(2));
-// Print(x.Log(10));
-// Print(x.Exp);
-
-let test := 10;
-let Factorial := {:(num)
-  if num == 0 then 1 else num * Factorial(num - 1);
+let Factorial := {:(number)
+  if number == 0 then 1 else number * Factorial(number - 1);
 }
 
-let Printer := {:(stop)
-  Print(Factorial(stop));
-  if stop == 1 then Null else Printer(stop + 1.Negate);
+let Printer := {:(from, to)
+  Print(Factorial(from));
+  if from != to then Printer(from + 1, to);
 }
 
-Printer(100);
+Printer(5, 20);

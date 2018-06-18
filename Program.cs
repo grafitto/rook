@@ -13,7 +13,7 @@ namespace Rook
         static void Main(string[] args)
         {
             
-            string code = File.ReadAllText("tests/Rook.rk");
+            string code = File.ReadAllText("tests/ops.rk");
             Lexer lexer = new Lexer(code); 
 
             /* Token next = lexer.Next();

@@ -105,6 +105,7 @@ namespace Rook.Tree
             if(!operata.Is(TokenType.FULL_STOP)) {
                 op2 = this.Convert(op2);
             }
+
             switch(operata.Type)
             {
                 case TokenType.TIMES:
@@ -112,9 +113,7 @@ namespace Rook.Tree
                 case TokenType.DIVIDE:
                     return new Tree.Number((op1.Evaluate(this.env).Value / op2.Evaluate(this.env).Value).ToString());
                 case TokenType.PLUS:
-                    double op1res = op1.Evaluate(this.env).Value;
-                    double op2res = op2.Evaluate(this.env).Value;
-                    return new Tree.Number((op1res + op2res).ToString());
+                    return this.ApplyPLUS(op1, op2);
                 case TokenType.MINUS:
                     return new Tree.Number((op1.Evaluate(this.env).Value - op2.Evaluate(this.env).Value).ToString());
                 case TokenType.MODULUS:
@@ -168,7 +167,30 @@ namespace Rook.Tree
                 Variable fname = modifier as Variable;
                 return (AST)called.InvokeMember(fname.name, BindingFlags.InvokeMethod, null, callee, null);
             }
-         }
+        }
+        private AST ApplyPLUS(AST op1, AST op2) {
+            var firstOperand = op1.Evaluate(this.env).Value;
+            var secondOparand = op2.Evaluate(this.env).Value;
+            if(checkType(op1, TreeType.NUMBER) && checkType(op2, TreeType.NUMBER)) {
+                //Both are numbers
+                return new Tree.Number((firstOperand + secondOparand).ToString());
+            } else if(checkType(op1, TreeType.STRING) && checkType(op2, TreeType.STRING)){
+                //Concat strings
+                return new Tree.String(firstOperand + secondOparand);
+            } else {
+                throw new Exception();
+            }
+        }
+
+
+
+
+        /*
+            Helper functions
+         */
+        private bool checkType(AST oparand, TreeType type) {
+            return oparand.Type == type;
+        }
         public string Capitalize(string s) {       
             return s[0].ToString().ToUpper() + s.Remove(0, 1).ToLower();
         }

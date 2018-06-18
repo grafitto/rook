@@ -1,28 +1,31 @@
-/*
-This function gets the age and returns the ticket
-*/
+/**
+ * This function gets the age and returns the ticket
+ */
+
 let CalculateTicket := {:(age)
-  let basePrice := 100;
-  if(age >= 18) then basePrice + 300 else basePrice + 100;
-}
+    let basePrice := 100;
+    if age >= 18 then basePrice + 300 else basePrice + 100;
+  }
+
 /*
 * This function calculates the age
 * @params birthYear Number
 * @return age Number
 */
+
 let GetAge := {:(birthYear)
   2018 - birthYear;
 }
 
-Print("Welcome to IMAX movie theatre");
+Print("Welcome to IMAX movie theatre.");
 Print("We would like a few of you details.");
-let s := Read("Enter your birth year: ").ToNumber;
-//let s := "1993";
+//let s := Read("Enter your birth year: ").ToNumber;
+ let s := "1993".ToNumber;
 let age := GetAge(s);
 let ticket := CalculateTicket(age);
 
-let ans := "Your ticket is: ".Concat(ticket).Concat(" enjoy!");
+let ans := "Your ticket is: ".Concat(ticket).Concat(". enjoy!");
 
 Print(ans);
-//This is a comment
-//This is also another comment
+// This is a comment
+// This is also another comment

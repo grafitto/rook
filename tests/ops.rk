@@ -1,0 +1,7 @@
+let k := "Hello ".Concat("World!") == "Hello " + "World!";
+
+if True then {
+
+} else {
+
+}
