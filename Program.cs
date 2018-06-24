@@ -13,15 +13,15 @@ namespace Rook
         static void Main(string[] args)
         {
             
-            string code = File.ReadAllText("tests/ops.rk");
-            Lexer lexer = new Lexer(code); 
-
-            /* Token next = lexer.Next();
+            string fileName = "tests/string-test.rk";
+            
+            /* Lexer lexer = new Lexer(fileName);
+            Token next = lexer.Next();
             while(next.Type != TokenType.EOF) {
                 Console.WriteLine(next);
                 next = lexer.Next();
             } */
-            Parser parser = new Parser(code);
+            Parser parser = new Parser(fileName);
             List<AST> trees = parser.Parse();
 
             Tree.Env.Environment env = Tree.Env.Environment.Scope();

@@ -3,7 +3,7 @@ namespace Rook.Tokenizer {
     public class Token {
         private TokenType type;
         private string value;
-
+        private string fileName;
         private int column;
         private int row;
 
@@ -19,11 +19,15 @@ namespace Rook.Tokenizer {
         public string Value {
             get { return this.value; }
         }
+        public string FileName {
+            get { return this.fileName; }
+        }
 
 
-        public Token(TokenType type, string value, int column, int row) {
+        public Token(TokenType type, string value, string fileName, int column, int row) {
             this.type = type;
             this.value = value;
+            this.fileName = fileName;
             this.column = column;
             this.row = row;
         }

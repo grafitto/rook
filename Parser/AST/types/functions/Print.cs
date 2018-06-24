@@ -13,8 +13,13 @@ namespace Rook.Tree {
     }
     public override dynamic Solve(Env.Environment env) {
       Env.Environment environ = Env.Environment.Scope(env);
-      dynamic value = environ.Get(this.Parameters[0]);
-      dynamic print = value.Value;
+      AST value = environ.Get(this.Parameters[0]);
+      dynamic print = null;
+      if(value.Type == TreeType.LIST) {
+        print = value.Evaluate(environ).ToString();
+      } else {
+        print = value.Evaluate(environ).Value;
+      }
       using(StreamWriter writer = new StreamWriter(Console.OpenStandardOutput())) {
         writer.Write(print.ToString() + "\n");
       }

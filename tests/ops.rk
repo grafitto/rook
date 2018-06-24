@@ -1,7 +1,23 @@
-let k := "Hello ".Concat("World!") == "Hello " + "World!";
-
-if True then {
-
-} else {
-
+let Printer := {:(list, index)
+  Print(list[index]); 
+  if index != list.Length - 1 then Printer(list, index + 1);
 }
+
+let Populate := {
+
+  let items := [];
+  let s := Read("Enter a number to add to a list(q to quit): ");
+  if s == "q" then {
+      if items.Length > 0 then {
+        Print("Here are the contents of the list:");
+        Printer(items, 0);
+      } else {
+        Print("The list has no items to display");
+      }
+  } else {
+      items.Add(s.ToNumber);
+      Populate();
+  }
+}
+
+Populate();

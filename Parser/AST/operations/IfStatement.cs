@@ -13,11 +13,21 @@ namespace Rook.Tree {
     public override dynamic Evaluate(Env.Environment env) {
       var res = new Tree.Boolean(condition.Evaluate(env)).Value;
       if(res) {
-        this.Value = thenBlock.Evaluate(env);
+        Function f = thenBlock as Function;
+        if(f != null){
+          this.Value = f.Solve(env);
+        } else {
+          this.Value = thenBlock.Evaluate(env);
+        }
         return this.Value;
       } else {
         if(elseBlock != null) {
-          this.Value = elseBlock.Evaluate(env);
+          Function f = elseBlock as Function;
+          if(f != null) {
+            this.Value = f.Solve(env);
+          } else {
+            this.Value = elseBlock.Evaluate(env);
+          }
           return this.Value;
         } else {
           this.Value = new Tree.Null();

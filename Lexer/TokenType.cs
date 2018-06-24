@@ -29,6 +29,8 @@ namespace Rook.Tokenizer {
         RIGHT_BRACKET,
         RIGHT_CURLY_BRACKET,
         LEFT_CURLY_BRACKET,
+        RIGHT_SQUARE_BRACKET,
+        LEFT_SQUARE_BRACKET,
         FULL_STOP,
         IF,
         THEN,

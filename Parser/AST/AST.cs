@@ -1,4 +1,5 @@
 using Rook.Tree.Env;
+using Rook.Errors;
 
 namespace Rook.Tree {
     public abstract class AST {
@@ -16,7 +17,7 @@ namespace Rook.Tree {
         }
         public void Error(string msg, int column, int row)
         {
-            throw new System.Exception(msg + " (" + column + "," + row + ")");
+            throw new RuntimeError(msg + " [Ln " + row + ", Col " + column + "]");
         }
         public abstract dynamic Evaluate(Environment env);
     }

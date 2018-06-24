@@ -1,0 +1,31 @@
+/*
+Data types:
+1. Strings
+2. Numbers (Double)
+3. Booleans (True|False)
+4. Null
+
+5. List
+
+Functions - FUnction calls - Recursion
+
+Conditions:
+1. If
+2. If - else
+
+Everything is an object.
+*/
+
+let list := [34, 43, Null, True, "String"];
+Print(list);
+
+let Printer := {:(list, position)
+  if position >= list.Length then { 
+      Null; 
+  } else {
+    Print(list[position]);
+    Printer(list, position + 1);
+  }
+}
+
+Printer(list, 0);

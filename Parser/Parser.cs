@@ -1,5 +1,6 @@
 using System;
 using Rook.Tree;
+using Rook.Errors;
 using Rook.Tokenizer;
 using System.Collections.Generic;
 
@@ -14,8 +15,8 @@ namespace Rook.Parse {
         public Parser(Lexer lexer) {
             this.lexer = lexer;
         }
-        public Parser(string code) {
-            this.lexer = new Lexer(code);
+        public Parser(string fileName) {
+            this.lexer = new Lexer(fileName);
         }
         public List<AST> Parse() {
             this.trees = this.GetTrees();
@@ -23,7 +24,7 @@ namespace Rook.Parse {
         }
         public List<AST> GetTrees() {
             List <AST> innerTrees = new List<AST>();
-            Token token = new Token(TokenType.IDENTIFIER, "begin", 1, 1);
+            Token token = new Token(TokenType.IDENTIFIER, "begin", "", 1, 1);
             while(!token.Is(TokenType.EOF)) 
             {
                 token = lexer.Next();
@@ -33,7 +34,7 @@ namespace Rook.Parse {
                     case TokenType.KEYWORD:
                         if (token.Value == KeyWords.LET) 
                         {
-                            this.ParseAssignment(token, ref innerTrees);
+                            innerTrees.Add(this.ParseAssignment(token));
                         } else if (token.Value == KeyWords.IF) {
                             innerTrees.Add(this.ParseIf(token));
                         }
@@ -53,8 +54,10 @@ namespace Rook.Parse {
                             //Reassigning a variable
                             lexer.Previous();
                             innerTrees.Add(this.ParseReAssignment(token));
-                        }
-                        else if(lexer.Peek().Is(TokenType.LEFT_BRACKET)) {
+                        } else if(lexer.Peek().Is(TokenType.LEFT_SQUARE_BRACKET)) {
+                            innerTrees.Add(this.ParseListReAssignment(token));
+
+                        }else if(lexer.Peek().Is(TokenType.LEFT_BRACKET)) {
                             //Function
                             innerTrees.Add(this.ParseFunctionCall(token));
                         } else if(lexer.Peek().isOperator()) {
@@ -75,6 +78,29 @@ namespace Rook.Parse {
             }
             return innerTrees;
         }
+        public AST ParseListReAssignment(Token token) {
+            this.Consume(TokenType.LEFT_SQUARE_BRACKET);
+            Token index = lexer.Next();
+            this.Consume(TokenType.RIGHT_SQUARE_BRACKET);
+            AST indexer = null;
+            if(index.Is(TokenType.IDENTIFIER)) {
+                indexer = new Tree.Variable(index.Value);
+            } else if (index.Is(TokenType.NUMBER)) {
+                indexer = new Tree.Number(index.Value);
+            } else {
+                this.Error("Only variables or numbers can be used to access list items", index);
+            }
+            AST right = null;
+            if(lexer.Peek().Is(TokenType.IS)) {
+                //there is the right part;
+                this.Consume(TokenType.IS);
+                right = this.Assignee();
+            } else if (lexer.Peek().Is(TokenType.SEMI_COLON)) {
+                right = new Tree.Null();
+            }
+            ListModify modifier = new ListModify(token.Value, indexer, right);
+            return new ReAssignment(token.Value, modifier);
+        }
         public AST ParseFunctionCall(Token token) {
             Token name = token;
             this.Consume(TokenType.LEFT_BRACKET);
@@ -89,6 +115,11 @@ namespace Rook.Parse {
                 if(current.Is(TokenType.RIGHT_BRACKET)) {
                     lexer.Previous();
                     return arguments;
+                } else if(lexer.Peek().Is(TokenType.LEFT_SQUARE_BRACKET)) {
+                    arguments.Add(this.Expression(current, true));
+                
+                    current = lexer.Next();
+                    continue;
                 } else if(lexer.Peek().Is(TokenType.COMMA)) {
                     arguments.Add(this.simpleTree(current));
                     current = lexer.Next();
@@ -98,7 +129,7 @@ namespace Rook.Parse {
                     return arguments;
                 } else if(current.Is(TokenType.COMMA)) {
                     current = lexer.Next();
-                    arguments.Add(this.simpleTree(current));
+                    arguments.Add(this.Expression(current, true));
                     current = lexer.Next();
                     continue;
                 } else if(lexer.Peek().isOperator()){
@@ -115,7 +146,7 @@ namespace Rook.Parse {
             }
             return arguments;
         }
-        public void ParseAssignment(Token token, ref List<AST> innerTrees) {
+        public Assignment ParseAssignment(Token token) {
             Token identifier = this.Fetch(TokenType.IDENTIFIER);
             AST right;
             if(lexer.Peek().Type == TokenType.SEMI_COLON) {
@@ -124,7 +155,7 @@ namespace Rook.Parse {
                 this.Consume(TokenType.IS);
                 right = this.Assignee();
             }
-            innerTrees.Add(new Assignment(identifier.Value, right));
+            return new Assignment(identifier.Value, right);
         }
         public AST ParseIf(Token token) {
             AST condition = this.Expression(lexer.Next());
@@ -133,6 +164,8 @@ namespace Rook.Parse {
             Token next = lexer.Next();
             if(lexer.Peek().Is(TokenType.LEFT_BRACKET)) {
                 thenBlock = this.ParseFunctionCall(next);
+            }else if(next.Is(TokenType.LEFT_CURLY_BRACKET)) {
+                thenBlock = this.FunctionDefinition(next);
             } else {
                 thenBlock = this.Expression(next);
             }
@@ -142,6 +175,8 @@ namespace Rook.Parse {
                 Token nextElse = lexer.Next();
                 if(lexer.Peek().Is(TokenType.LEFT_BRACKET)) {
                     elseBlock = this.ParseFunctionCall(nextElse);
+                } else if (next.Is(TokenType.LEFT_CURLY_BRACKET)) {
+                    elseBlock = this.FunctionDefinition(nextElse);
                 } else {
                     elseBlock = this.Expression(nextElse);
                 }
@@ -169,7 +204,7 @@ namespace Rook.Parse {
                 case TokenType.IDENTIFIER: 
                     if(lexer.Peek().Is(TokenType.SEMI_COLON)) {
                         return new Variable(token.Value);
-                    } else if(lexer.Peek().isOperator()) {
+                    } else if(lexer.Peek().isOperator() || lexer.Peek().Is(TokenType.LEFT_SQUARE_BRACKET)) {
                         return this.Expression(token);
                     } else {
                         this.NotImplemented(lexer.Peek());
@@ -197,7 +232,7 @@ namespace Rook.Parse {
                     if(lexer.Peek().Is(TokenType.SEMI_COLON)) {
                         return new Tree.Null();
                     } else {
-                        this.NotImplemented(lexer.Peek());
+                        this.Error("Unexpected token. ", token);
                     }
                     break;
                 case TokenType.LEFT_BRACKET:
@@ -206,11 +241,33 @@ namespace Rook.Parse {
                     return this.ParseIf(token);
                 case TokenType.LEFT_CURLY_BRACKET:
                     return this.FunctionDefinition(token);
+                case TokenType.LEFT_SQUARE_BRACKET:
+                    return this.ListDefinition(token);
                 default:
-                    throw new Exception();
-
+                    this.Error("Unknown character.", token);
+                    break;
             }
-            throw new Exception();
+            this.Error("Unknown character. ", token);
+            throw new SyntaxError();
+        }
+        public List ListDefinition(Token token) {
+            List<AST> items = new List<AST>();
+            Token current = token;
+            current = lexer.Next();
+            while(!current.Is(TokenType.EOF)) {
+                if(current.Is(TokenType.COMMA)) {
+                    current = lexer.Next();
+                    continue;
+                } else if(current.Is(TokenType.RIGHT_SQUARE_BRACKET)) {
+                    break;
+                } else if(lexer.Peek().Is(TokenType.RIGHT_SQUARE_BRACKET)) {
+                    items.Add(this.simpleTree(current));
+                    break;
+                }
+                items.Add(this.Expression(current));
+                current = lexer.Next();
+            }
+            return new Tree.List(items);
         }
         public Function FunctionDefinition(Token token) {
             Token current = token;
@@ -239,15 +296,33 @@ namespace Rook.Parse {
             }
             return parameters;
         }
+        public ListAccess ParseListAccess(Token token) {
+            Token identifier = token;
+            this.Consume(TokenType.LEFT_SQUARE_BRACKET);
+            Token indexer = lexer.Next();
+            AST index = null;
+            if(indexer.Is(TokenType.IDENTIFIER)) {
+                index = new Tree.Variable(indexer.Value);
+            } else if(indexer.Is(TokenType.NUMBER)) {
+                index = new Tree.Number(indexer.Value);
+            } else if(lexer.Peek().isOperator()) {
+                index = this.Expression(indexer);
+            } else {
+                this.Error("List accesser not allowed. ", indexer);
+            }
+            this.Consume(TokenType.RIGHT_SQUARE_BRACKET);
+            return new ListAccess(identifier.Value, index);
+        }
         public AST simpleTree(Token token)
         {
             switch(token.Type)
             {
                 case TokenType.IDENTIFIER:
-                    if(lexer.Peek().Is(TokenType.LEFT_BRACKET))
-                    {
+                    if(lexer.Peek().Is(TokenType.LEFT_BRACKET)) {
                         //Should be a function call
                         return this.ParseFunctionCall(token);
+                    } else if(lexer.Peek().Is(TokenType.LEFT_SQUARE_BRACKET)){
+                        return this.ParseListAccess(token);
                     } else {
                         return new Variable(token.Value);
                     }
@@ -268,7 +343,8 @@ namespace Rook.Parse {
                     this.Error("Not supported.", token);
                     break;
             }
-            throw new Exception();
+            this.Error("Unknown token.", token);
+            throw new SyntaxError();
         }
         public AST Expression(Token token, bool fromCall = false)
         {
@@ -313,13 +389,13 @@ namespace Rook.Parse {
         public void Consume(TokenType type) {
             Token token = lexer.Next();
             if(token.Type != type) {
-                throw new Exception("Unexpected token (" + token.Column + "," + token.Row + ")");
+                this.Error("Unexpected token", token);
             }
         }
         public Token Fetch(TokenType type) {
             Token token = lexer.Next();
             if(token.Type != type) {
-                throw new Exception(type.ToString() + " expected (" + token.Column + "," + token.Row + ")");
+                this.Error(type.ToString() + " expected", token);
             }
             return token;
         }
@@ -328,11 +404,11 @@ namespace Rook.Parse {
             return token.Type == type;
         }
         public void Error(string msg, Token token) {
-            throw new Exception(msg + " (" + token.Column + "," + token.Row + ")");
+            throw new SyntaxError("'" + msg + "' in '" + token.FileName + "' (" + token.Column + "," + token.Row + ")");
         }
 
         public void NotImplemented(Token token) {
-            throw new NotImplementedException("[NOT IMPLEMENTED] (" + token.Column + "," + token.Row + ")");
+            throw new NotImplementedException("'[NOT IMPLEMENTED]' in '" + token.FileName +"' [ln " + token.Row + ",Col " + token.Column + "]");
         }
     }
 }

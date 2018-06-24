@@ -15,6 +15,8 @@ namespace Rook.Tree {
 
         //INBUILT FUNCTIONS
         INBUILT_PRINT_FUNCTION,
-        INBUILT_READ_FUNCTION
+        INBUILT_READ_FUNCTION,
+        LIST_ACCESS,
+        LIST_MODIFY
     }
 }

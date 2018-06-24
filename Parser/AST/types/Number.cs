@@ -24,6 +24,9 @@ namespace Rook.Tree {
         public override dynamic Evaluate(Env.Environment env) {
             return this;
         }
+        public Number Abs() {
+            return new Number(Math.Abs(this.Value));
+        }
         public Number Negate() {
             return new Number(-this.Value);
         }

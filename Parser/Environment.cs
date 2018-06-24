@@ -1,9 +1,9 @@
 using System;
+using Rook.Errors;
 using System.Collections.Generic;
 
 namespace Rook.Tree.Env {
     public class Environment {
-
         private static Environment scope = null;
         private Dictionary<string, dynamic> env;
         private Environment parent;
@@ -16,7 +16,7 @@ namespace Rook.Tree.Env {
         }
         public void Set(string name, dynamic value) {
             if(this.env.ContainsKey(name))
-                throw new Exception("Another variable " + name + " has already been initialized.");
+                throw new RuntimeError("Another variable " + name + " has already been initialized.");
             else
                 this.env.Add(name, value);
         }
@@ -24,7 +24,15 @@ namespace Rook.Tree.Env {
             if(this.env.ContainsKey(name))
                 this.env[name] = value;
             else
-                throw new Exception("Variable " + name + " has not been initialized.");
+                throw new RuntimeError("Variable " + name + " has not been initialized.");
+        }
+        public void ChangeList(string name, double index, dynamic value) {
+            int i = int.Parse(index.ToString());
+            if(this.env.ContainsKey(name)) {
+                this.env[name].Insert(i, value);
+            } else {
+                throw new RuntimeError("List " + name + " not initialized.");
+            }
         }
         public dynamic Get(string name) {
             if(this.env.ContainsKey(name)) {
@@ -34,7 +42,7 @@ namespace Rook.Tree.Env {
                 // Check the parent scope
                 return this.parent.Get(name);
             } else {
-                throw new Exception("Variable " + name + " not initialized.");
+                throw new RuntimeError("Variable " + name + " not initialized.");
             }
         }
         public static Environment Scope(Environment parent = null) {

@@ -113,7 +113,7 @@ namespace Rook.Tree
                 case TokenType.DIVIDE:
                     return new Tree.Number((op1.Evaluate(this.env).Value / op2.Evaluate(this.env).Value).ToString());
                 case TokenType.PLUS:
-                    return this.ApplyPLUS(op1, op2);
+                    return this.ApplyPLUS(operata, op1, op2);
                 case TokenType.MINUS:
                     return new Tree.Number((op1.Evaluate(this.env).Value - op2.Evaluate(this.env).Value).ToString());
                 case TokenType.MODULUS:
@@ -141,7 +141,7 @@ namespace Rook.Tree
                 case TokenType.FULL_STOP:
                     return this.AccessModifier(op1, op2);
                 default:
-                    this.Error(operata.Type + " cannot be used as an expression operator", operata.Column, operata.Row);
+                    this.Error(operata.Type + " cannot be used as an expression operator", operata.Row, operata.Column);
                     return null;
             }
         }
@@ -168,17 +168,23 @@ namespace Rook.Tree
                 return (AST)called.InvokeMember(fname.name, BindingFlags.InvokeMethod, null, callee, null);
             }
         }
-        private AST ApplyPLUS(AST op1, AST op2) {
-            var firstOperand = op1.Evaluate(this.env).Value;
-            var secondOparand = op2.Evaluate(this.env).Value;
-            if(checkType(op1, TreeType.NUMBER) && checkType(op2, TreeType.NUMBER)) {
+        private AST ApplyPLUS(Token oparata, AST op1, AST op2) {
+            AST firstType = op1.Evaluate(this.env);
+            AST secondType = op2.Evaluate(this.env);
+
+            if(checkType(firstType, TreeType.NUMBER) && checkType(secondType, TreeType.NUMBER)) {
                 //Both are numbers
-                return new Tree.Number((firstOperand + secondOparand).ToString());
-            } else if(checkType(op1, TreeType.STRING) && checkType(op2, TreeType.STRING)){
+                Number first = firstType as Number;
+                Number second = secondType as Number;
+                return new Tree.Number((first.Value + second.Value).ToString());
+            } else if(checkType(firstType, TreeType.STRING) && checkType(secondType, TreeType.STRING)){
                 //Concat strings
-                return new Tree.String(firstOperand + secondOparand);
+                Tree.String first = firstType as Tree.String;
+                Tree.String second = secondType as Tree.String;
+                return new Tree.String(first.Value + second.Value);
             } else {
-                throw new Exception();
+                this.Error("Operator + cannot be applied to operands of type " + op1.Type + " and " + op2.Type, oparata.Row, oparata.Column);
+                return new Null();
             }
         }
 

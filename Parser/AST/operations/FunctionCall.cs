@@ -20,7 +20,7 @@ namespace Rook.Tree {
        Env.Environment scope = Env.Environment.Scope(env);
        Function function = env.Get(this.name);
        if(this.arguments.Count != function.Parameters.Count){
-         throw new Exception("Expected " + function.Parameters.Count  + " parameters to function " + this.name + " call. Found " + this.arguments.Count + " parameters.");
+         this.Error("Expected " + function.Parameters.Count  + " parameters to function " + this.name + " call. Found " + this.arguments.Count + " parameters.", 0, 0);
        }
        for(int i = 0; i < this.arguments.Count; i++) {
          scope.Set(function.Parameters[i], this.arguments[i].Evaluate(env));
