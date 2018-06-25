@@ -13,7 +13,6 @@ Print("Hello world!");
 //Print is an inbuilt function used to print to the console.
 ```
 Before we dive deep into Rook, A few points are worth noting.
-
 - **Variable names can only contain alphabets and an underscore (_)** (for now)**.**
 - **Only decimal numbers are supported** (for now).
 - **Everything in Rook is an object.**
@@ -37,7 +36,8 @@ let another := 34 + 45 / 456 * 2; //Expressions are also supported
 Numbers contain a few methods:
 
 **Number Functions**
-Since unary operators are not supported yet, Numbers have a `Negate`    method that returns a negated new number.
+
+Since unary operators are not supported yet, Numbers have a `Negate`    property that returns a negated new number.
 ```javascript
 let negatedOne := 10.Negate; //-10
 let negatedTwo := negatedOne.Negate; //10
@@ -53,8 +53,8 @@ let log := 10.Log(10); //Log base 10 of 10
 ```
 
 ### Strings
-Strings are textual data. `"`    is used to surround string data.
-`\`    can be used to excape characters but special characters E.g `\n`    `\t`    and others are not supported yet.
+Strings are textual data. `"` is used to surround string data.
+`\` can be used to excape characters but special characters E.g `\n` `\t` and others are not supported yet.
 
 ```javascript
 let string := "Hello world!";
@@ -62,7 +62,8 @@ let string := "Hello world!";
 Strings contain a few methods:
 
 **Concatnation**
-`**+**`   or `Concat`    method can be used to concatnate strings.
+
+`**+**`   or `Concat` method can be used to concatnate strings.
 ```javascript
 let string := "Hello" + " world!";
 //A + can be used to concatnate strings
@@ -70,6 +71,14 @@ let string := "Hello" + " world!";
 let stringTwo := string.Concat("again");
 let stringThree := "Another".Concat(" string");
 //Using Concat method.
+```
+
+`ToNumber`  property which converts a string to a Number.
+
+```javascript
+let s := "200";
+s.ToNumber; // Returns 200 as a number
+"200".ToNumber; // is also valid
 ```
 
 ### Booleans
@@ -87,7 +96,7 @@ let boolTwo := True && True || False;
 ```
 
 **Note:**
-Strings with *"False"* (without quotes), *"Null"* (without quotes) or empty strings are casted to `False`    when using them as booleans, everything else is casted to `True`    
+Strings with *"False"* (without quotes), *"Null"* (without quotes) or empty strings are casted to `False` when using them as booleans, everything else is casted to `True`    
 ```javascript
 let bool := "Test" || False; // Returns True
 ```
@@ -109,7 +118,7 @@ let y := Null; // Or you could explicitly assign Null
 
 
 ### **Lists**
-Lists in Rook are almost equivalent to Python lists. They are initialised with `[]`    for empty lists. They can take any of Rook's basic types.
+Lists in Rook are almost equivalent to Python lists. They are initialised with `[]` for empty lists. They can take any of Rook's basic types.
 ```javascript
 let list := []; // Initializes an empty list
 let listTwo := ["string", Null, False, 23]; // Can accept any type
@@ -117,8 +126,8 @@ let listTwo := ["string", Null, False, 23]; // Can accept any type
 Lists contains a few methods:
 
 **Add**
-Used to add an item at the end of the list
 
+Used to add an item at the end of the list
 ```javascript
 let list := [];
 list.Add(10); // [10]
@@ -134,9 +143,9 @@ list.Length; //Returns the number of items on the list
 ```
 
 ### **Functions**
-Lets go through functions and function calls before if statements. There is a good reason. Trust me.
+Lets go through functions and function calls before if statements. There is a good reason. Trust me.   
 All functions in Rook are higher order functions. They can be passed as parameters and returned as return values.
-Functions are denoted by `{`    and `}`    so everything between those two curly brackets are considered within the function.
+Functions are denoted by `{` and `}`  so everything between those two curly brackets are considered within the function.
 ```javascript
 let f := {} // This is an empty function
 ```
@@ -150,8 +159,10 @@ let there := {
 }
 // Then the above function would also return 10;
 ```
+
 **Functions with arguments**
-If you are defining a function that expects parameters, you use `:( [params] )` immediaetly after `{` 
+
+If you are defining a function that expects parameters, you use `:( [params] )` immedietly after `{` 
 Example:
 ```javascript
 let Power := {:(num, pow)
@@ -161,18 +172,20 @@ let x := Power(10, 2)
 //Value x would be 100, thats 10 power 2
 ```
 
-Rook supports nested functions, but inner functions are only accessible locally. Its impossible to call a function within another function while outside the parent scope unless the inner function is the return value. *(Still debating whether to use `.`    notation to access inner functions globally...)*
+Rook supports nested functions, but inner functions are only accessible locally. Its impossible to call a function within another function while outside the parent scope unless the inner function is the return value. *(Still debating whether to use `.` notation to access inner functions globally...)*    
 ### 
 **Function calls**
+
 Function calls are similar to most programming languages
 ```javascript
 FunctionName(); // A function which does not accept any parameters
 FunctionName(10, 30); // Calling a function that accepts 2 params
 // Etc
 ```
+### 
 ### **Conditional Statement**
 **If - then - **else**** is the only conditional statement in Rook. The else part is optional.
-Remember every statement in Rook returns a value? Well, even an `if`    statement is not an exception.
+Remember every statement in Rook returns a value? Well, even an `if`statement is not an exception.
 
 ```javascript
  //if condition then Expression  | Function call | function else Expression | Function call | Function
@@ -188,7 +201,7 @@ Remember every statement in Rook returns a value? Well, even an `if`    statemen
  //Remember if statement returns a value, well...
  let x := if 40 > 20 then 400 else 200 + 34; //x => 300
 ```
-A function definition is also valid after `then`    or `else`
+A function definition is also valid after `then` or `else`
 ```javascript
 let n := if True then {
     10;
@@ -201,7 +214,7 @@ For now, its not possible to use both function definition and an Expression on t
 ```javascript
 let s := if False then 10 else { 200; } // This will fail
 let g := if False then 10 else 200; // This is also correct
-let f := if False then { 10[ } else { 200; } // This is correct 
+let f := if False then { 10; } else { 200; } // This is correct 
 ```
 
 ### **Loops**
@@ -221,7 +234,65 @@ let Printer := {:(start, end)
 //Then call printer
 Printer(1, 10);
 ```
-Still debating whether to add **conventional** loops, still undecided :)
+I am debating whether to add **conventional** loops, still undecided :)
 
+Below is are a few simple algorigms that runs on Rook
+
+```javascript
+/**
+ * This function gets the age and returns the ticket
+ */
+let CalculateTicket := {:(age)
+    let basePrice := 100;
+    if age >= 18 then basePrice + 300 else basePrice + 100;
+  }
+
+/*
+* This function calculates the age
+* @params birthYear Number
+* @return age Number
+*/
+
+let GetAge := {:(birthYear)
+  2018 - birthYear;
+}
+
+Print("Welcome to IMAX movie theatre.");
+Print("We would like a few of you details.");
+let s := Read("Enter your birth year: ").ToNumber;
+let age := GetAge(s);
+let ticket := CalculateTicket(age);
+
+let ans := "Your ticket is: ".Concat(ticket).Concat(". enjoy!");
+
+Print(ans);
+// This is a comment
+```
+
+```javascript
+let Printer := {:(list, index)
+  Print(list[index]); 
+  if index != list.Length - 1 then Printer(list, index + 1);
+}
+
+let Populate := {
+
+  let items := [];
+  let s := Read("Enter a number to add to a list(q to quit): ");
+  if s == "q" then {
+      if items.Length > 0 then {
+        Print("Here are the contents of the list:");
+        Printer(items, 0);
+      } else {
+        Print("The list has no items to display");
+      }
+  } else {
+      items.Add(s.ToNumber);
+      Populate();
+  }
+}
+
+Populate();
+```
 
 # This is STILL under construction
