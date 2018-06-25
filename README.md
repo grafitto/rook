@@ -3,7 +3,7 @@ A few months as I was learning about compiler design, I came up with the project
 *Rook* Is a very simple programming language I am making for fun.
 
 Disclaimer:
-1. I am not a professional in programming language design. I barely know anything about designing programming languages.
+1. I am not a professional in programming language design. I barely know anything about programming languages.
 1. The language is barely tested, therefore its possible that there are tonnes of errors unearthed. For example the error reporter is drunk.
 1. Unary operators are not supported **yet.**
 1. I know the compiler is written in C#.
