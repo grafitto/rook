@@ -236,7 +236,7 @@ Printer(1, 10);
 ```
 I am debating whether to add **conventional** loops, still undecided :)
 
-Below is are a few simple algorigms that runs on Rook
+Below is are a few simple algorithms that runs on Rook
 
 ```javascript
 /**
