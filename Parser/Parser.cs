@@ -258,6 +258,10 @@ namespace Rook.Parse {
                 if(current.Is(TokenType.COMMA)) {
                     current = lexer.Next();
                     continue;
+                } else if(current.Is(TokenType.LEFT_SQUARE_BRACKET)) {
+                    items.Add(ListDefinition(current));
+                    current = lexer.Next();
+                    continue;
                 } else if(current.Is(TokenType.RIGHT_SQUARE_BRACKET)) {
                     break;
                 } else if(lexer.Peek().Is(TokenType.RIGHT_SQUARE_BRACKET)) {
@@ -404,7 +408,7 @@ namespace Rook.Parse {
             return token.Type == type;
         }
         public void Error(string msg, Token token) {
-            throw new SyntaxError("'" + msg + "' in '" + token.FileName + "' (" + token.Column + "," + token.Row + ")");
+            throw new SyntaxError("'" + msg + "' in '" + token.FileName + "' [ln " + token.Row + ", Col " + token.Column + "]");
         }
 
         public void NotImplemented(Token token) {

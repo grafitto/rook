@@ -1,4 +1,5 @@
-obj/**/*
-build/**/*
-.vs/**/*
+obj
+build
+.vs
 bin
+build

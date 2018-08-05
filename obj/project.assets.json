@@ -664,8 +664,7 @@
     ]
   },
   "packageFolders": {
-    "/home/nderitu/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "/home/nderitu/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -676,9 +675,6 @@
       "packagesPath": "/home/nderitu/.nuget/packages/",
       "outputPath": "/home/nderitu/Documents/REPOSITORIES/Rook/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "/home/nderitu/.nuget/NuGet/NuGet.Config"
       ],

@@ -18,8 +18,12 @@ namespace Rook.Tree {
                     items.Add(item.Evaluate(env));
                 }
                 this.right = new Tree.List(items);
-            } 
-            env.Set(this.left, this.right.Evaluate(env));
+            }
+            AST final = this.right.Evaluate(env);
+            if(final.Type == TreeType.LIST_ACCESS) {
+                final = final.Evaluate(env);
+            }
+            env.Set(this.left, final);
             return this.right;
         }
     }

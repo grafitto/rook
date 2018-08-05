@@ -20,9 +20,14 @@ namespace Rook.Tree {
     public override dynamic Evaluate(Env.Environment env) {
         this.print = "[";
         foreach(AST item in this.Items) {
-            this.print += item.Evaluate(env).Value.ToString();
+            if(item.Type == TreeType.LIST) {
+                this.print += item.Evaluate(env).ToString();
+            } else {
+                this.print += item.Evaluate(env).Value.ToString();
+            }
             this.print += ",";
         }
+        this.print = this.print.TrimEnd(new char[]{','});
         this.print += "]";
         return this;
     }

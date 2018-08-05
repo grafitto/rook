@@ -2,8 +2,7 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "/home/nderitu/.dotnet/store/|arch|/|tfm|",
-      "/home/nderitu/.nuget/packages",
-      "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      "/home/nderitu/.nuget/packages"
     ]
   }
 }

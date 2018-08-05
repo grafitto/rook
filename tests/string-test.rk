@@ -1,3 +1,4 @@
-let s := { let x := 10; };
-
-Print(s());
+let func := {:(num) 
+  Print(num.Sqrt);
+}
+func(16);

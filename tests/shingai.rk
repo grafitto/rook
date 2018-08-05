@@ -20,9 +20,8 @@ let list := [34, 43, Null, True, "String"];
 Print(list);
 
 let Printer := {:(list, position)
-  if position >= list.Length then { 
-      Null; 
-  } else {
+  // This is a comment
+  if position < list.Length then {
     Print(list[position]);
     Printer(list, position + 1);
   }
